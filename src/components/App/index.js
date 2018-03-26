@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {fetchBlogPostsRequest} from "../../actions";
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
 import './styles.css'
 import Posts from '../Posts'
 import PostDetails from '../PostDetails'
 import AuthorDetails from '../AuthorDetails'
-import {connect} from 'react-redux';
-import {fetchBlogPostsRequest} from "../../actions";
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import Header from '../Header'
 
 class App extends Component {
 
@@ -16,14 +17,7 @@ class App extends Component {
   render() {
     return (
       <div>
-      <header>
-        <nav>
-          <ul>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/posts'>Posts</Link></li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
       <Switch>
         <Route exact path="/" render={ () => <h1>Home</h1>}/>
         <Route exact path="/posts" component={Posts}/>
