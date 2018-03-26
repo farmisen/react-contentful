@@ -1,37 +1,30 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {fetchBlogPostsRequest} from "../../actions";
+import {Link} from 'react-router-dom'
 
-// import {Link} from 'react-router';
+const Posts = (props) => {
 
-class Posts extends Component {
-
-  componentWillMount() {
-    this.props.fetchBlogPosts();
-  }
-
-  render() {
+  const renderPost = (post) => {
     return (
-      <div>
-        <h1>Posts:</h1>
-        <div>
-          {this.props.posts.map((post, i) => this.renderPost(post, i))}
-        </div>
-      </div>
-    );
-  }
-
-  renderPost(post, i) {
-    return (
-      <div key={i}>
-        <h2>{post.title}</h2>
-        <p>{post.body}</p>
+      <div key={post.sys.id}>
+        <h2><Link to={`/posts/${post.sys.id}`}>{post.fields.title}</Link></h2>
+        <p>{post.fields.body}</p>
+        <Link to={`/authors/${post.sys.id}`}>{post.fields.author.fields.name}</Link>
+        <hr/>
       </div>
     )
-  }
-}
+  };
 
-const mapStateToProps = state => ({posts: state.blogPosts.posts})
-const mapDispatchToProps = dispatch => ({fetchBlogPosts: () => dispatch(fetchBlogPostsRequest())})
+  return (
+    <div>
+      <h1>Posts:</h1>
+      <div>
+        {props.posts.map((post) => renderPost(post))}
+      </div>
+    </div>
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+const mapStateToProps = state => ({posts: state.blogPosts.posts});
+
+export default connect(mapStateToProps)(Posts);
